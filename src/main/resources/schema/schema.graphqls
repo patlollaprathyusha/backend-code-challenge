@@ -1,2 +1,43 @@
 type Query {
+  GetAddressByUserId(id : ID): User
+}
+type User{
+ id : ID!
+ firstName : String!
+ lastName : String!
+ username : String!
+ password : String!
+ address : Address!
+}
+
+type Address{
+ id : ID!
+ address1 : String!
+ address2 : String
+ city : String!
+ state : String!
+ postal : String!
+}
+
+{
+ GetAddressByUserId(id : 1){
+  user{
+   id
+   firstName
+   lastName
+   username
+   password
+   address{
+      id
+      address1
+      address2
+      city
+      state
+      postal
+   }
+   where :{
+   id : $id
+   }
+  }
+
 }

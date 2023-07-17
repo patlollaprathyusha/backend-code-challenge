@@ -1,5 +1,6 @@
 package com.midwesttape.project.challengeapplication.service;
 
+import com.midwesttape.project.challengeapplication.model.Address;
 import com.midwesttape.project.challengeapplication.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,39 @@ class UserServiceTest {
         assertEquals(user, resultUser);
 
 
+    }
+
+    @Test
+    public void should_get_address_by_userId() {
+
+        final Address address = new Address();
+
+        when(template.queryForObject(anyString(), isA(BeanPropertyRowMapper.class), eq(USER_ID))).thenReturn(address);
+
+        final Address resultAddress = userService.getAddressByUserId(USER_ID);
+
+        assertEquals(address, resultAddress);
+    }
+
+    @Test
+    public void update_user() {
+
+        final int result=1;
+        when(template.update("UPDATE USER set firstName = ?, lastName =? where id =?",
+            "Name",
+            "Lname",
+            1L)).thenReturn(result);
+        int updatedUser = userService.updateUser(userInput());
+
+        assertEquals(result, updatedUser);
+    }
+
+    private User userInput(){
+        User user =new User();
+        user.setId(1L);
+        user.setFirstName("Name");
+        user.setLastName("Lname");
+        return user;
     }
 
 }
